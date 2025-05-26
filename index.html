@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Grade Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      background: #a5f0ad;
+      padding: 15px;
+      border-left: 5px solid #007BFF;
+    }
+  </style>
+</head>
+<body>
+  <h1>Student Grade Calculator</h1>
+  <div class="container">
+    <input type="text" id="studentId" placeholder="Student ID ">
+    <input type="text" id="studentName" placeholder="Student Name ">
+    <input type="number" id="mark1" placeholder="Tamil ">
+    <input type="number" id="mark2" placeholder="English ">
+    <input type="number" id="mark3" placeholder="Maths     ">
+    <input type="number" id="mark4" placeholder="Science">
+    <input type="number" id="mark5" placeholder="Social Science">
+    <button onclick="calculateGrade()">Total Score</button>
+
+    <div class="result" id="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    function calculateGrade() {
+      const id = document.getElementById('studentId').value;
+      const name = document.getElementById('studentName').value;
+      const marks = [
+        parseFloat(document.getElementById('mark1').value),
+        parseFloat(document.getElementById('mark2').value),
+        parseFloat(document.getElementById('mark3').value),
+        parseFloat(document.getElementById('mark4').value),
+        parseFloat(document.getElementById('mark5').value)
+      ];
+
+      if (!id || !name || marks.some(isNaN)) {
+        alert("Please enter all fields correctly.");
+        return;
+      }
+
+      const total = marks.reduce((sum, m) => sum + m, 0);
+      const percentage = total / marks.length;
+
+      let grade = '';
+      if (percentage > 90) grade = 'A';
+      else if (percentage > 80) grade = 'B';
+      else if (percentage > 70) grade = 'C';
+      else if (percentage > 60) grade = 'D';
+      else if (percentage > 50) grade = 'E';
+      else grade = 'Fail';
+
+      const resultBox = document.getElementById('result');
+      resultBox.style.display = 'block';
+      resultBox.innerHTML = `
+        <strong>Student ID:</strong> ${id}<br>
+        <strong>Name:</strong> ${name}<br>
+        <strong>Marks:</strong> ${marks.join(', ')}<br>
+        <strong>Total:</strong> ${total}<br>
+        <strong>Percentage:</strong> ${percentage.toFixed(2)}%<br>
+        <strong>Grade:</strong> ${grade}
+      `;
+    }
+  </script>
+</body>
+</html>
